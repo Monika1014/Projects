@@ -1,0 +1,15 @@
+clc
+clear all;
+close all;
+A=imread('/MATLAB Drive/Saved Pictures/Rose.jpeg');
+imshow(A);
+title('Original Image');
+img_convert= rgb2gray(A);
+imshow(img_convert);
+title('Color to colorless Image');
+in = imnoise(img_convert,'salt & pepper',0.02);
+imshow(in);
+title('Noise Image');
+k=medfilt2(in);
+imshow(k);
+title('Filtered Image');
