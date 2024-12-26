@@ -1,0 +1,14 @@
+close all;
+clear all;
+I = imread('cameraman.tif');
+imshow(I);
+figure;
+title('Original Image');
+in = imnoise(I,'salt & pepper',0.02);
+imshow(in);
+figure;
+title('NOISE IMAGE');
+k = medfilt2(in);
+imshow(k);
+figure;
+title('Filtered Image');
