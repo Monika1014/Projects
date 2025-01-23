@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Railway Ticket Booking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f4f4f9;
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        const trainTimings = {
+            "express_101": ["06:00 AM", "10:30 AM", "04:30 PM"],
+            "express_202": ["07:00 AM", "01:00 PM", "06:05 PM"],
+            "express_303": ["08:00 AM", "02:00 PM", "08:10 PM"],
+            "express_404": ["09:00 AM", "03:00 PM", "09:00 PM"],
+            "express_505": ["10:00 AM", "04:00 PM", "10:15 PM"],
+            "express_102": ["06:10 AM", "10:40 AM", "04:10 PM"],
+            "express_103": ["07:05 AM", "01:15 PM", "06:30 PM"],
+            "express_104": ["08:15 AM", "02:00 PM", "08:00 PM"],
+            "express_105": ["09:30 AM", "03:15 PM", "09:35 PM"],
+            "express_106": ["10:10 AM", "04:05 PM", "10:55 PM"],
+            "express_107": ["05:05 AM", "11:00 PM", "06:25 PM"],
+            "express_108": ["06:45 AM", "01:35 PM", "05:00 PM"],
+            "express_205": ["10:00 AM", "03:10 PM", "08:00 PM"],
+        };
+
+        function updateTimings() {
+            const trainSelect = document.getElementById("train");
+            const timingSelect = document.getElementById("timing");
+            const selectedTrain = trainSelect.value;
+
+            timingSelect.innerHTML = '<option value="">Select timing</option>';
+
+            if (selectedTrain && trainTimings[selectedTrain]) {
+                trainTimings[selectedTrain].forEach(time => {
+                    const option = document.createElement("option");
+                    option.value = time;
+                    option.textContent = time;
+                    timingSelect.appendChild(option);
+                });
+                timingSelect.disabled = false;
+            } else {
+                timingSelect.disabled = true;
+            }
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            document.querySelector('.success-message').style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Railway Ticket Booking</h1>
+    </header>
+
+    <div class="container">
+        <h2>Book Your Ticket</h2>
+        <form onsubmit="handleFormSubmit(event)">
+            <label for="from">From</label>
+            <input type="text" id="from" name="from" placeholder="Enter departure station" required>
+
+            <label for="to">To</label>
+            <input type="text" id="to" name="to" placeholder="Enter destination station" required>
+
+            <label for="date">Date of Journey</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="class">Class</label>
+            <select id="class" name="class" required>
+                <option value="">~ Select class</option>
+                <option value="sleeper">Sleeper</option>
+                <option value="ac">AC</option>
+                <option value="general">General</option>
+            </select>
+
+            <label for="passengers">Number of Passengers</label>
+            <input type="number" id="passengers" name="passengers" min="1" max="6" placeholder="Enter number of passengers" required>
+
+            <label for="train">Train Name</label>
+            <select id="train" name="train" onchange="updateTimings()" required>
+                <option value="">~ Select train</option>
+                <option value="express_101">Shatabdi Express</option>
+                <option value="express_202">Vande Bharat Express</option>
+                <option value="express_303">Chennai Express</option>
+                <option value="express_404">Coimbatore Express</option>
+                <option value="express_505">Mysore Express</option>
+                <option value="express_102">Nilgiri Express</option>
+                <option value="express_103">Palakkad Express</option>
+                <option value="express_104">Cheran Express</option>
+                <option value="express_105">Trivandrum Express</option>
+                <option value="express_106">Duronto Express</option>
+                <option value="express_107">Kalka Shatabdi Express</option>
+                <option value="express_108">The Golden Chariot </option>
+                <option value="express_205">Dibrugarh-Kanyakumari Vivek Express</option>
+            </select>
+
+            <label for="timing">Train Timing</label>
+            <select id="timing" name="timing" disabled required>
+                <option value="">Select timing</option>
+            </select>
+
+            <button type="submit">Book Ticket</button>
+        </form>
+        <div class="success-message">Ticket booked successfully!</div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Railway Ticket Booking System</p>
+    </footer>
+</body>
+</html>
